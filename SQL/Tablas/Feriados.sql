@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[Feriados]    Script Date: 16/05/2021 12:22:24 p. m. ******/
+/****** Object:  Table [dbo].[Feriados]    Script Date: 16/05/2021 03:29:49 p. m. ******/
 SET ANSI_NULLS ON
 GO
 

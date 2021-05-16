@@ -1,4 +1,4 @@
-USE [PlanillaObrera]
+USE [SistemaObrero]
 
 SET ANSI_NULLS ON
 GO
@@ -15,7 +15,7 @@ BEGIN
 
 	SET NOCOUNT ON
 
-	INSERT INTO Puesto
+	INSERT INTO Puestos
 
 		SELECT
 			puesto.value('@Id','INT') AS id,
@@ -27,7 +27,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -45,7 +45,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -63,7 +63,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -76,13 +76,13 @@ BEGIN
 			tipoJornada.value('@Id','INT') AS id,
 			tipoJornada.value('@Nombre','VARCHAR(40)') AS nombre,
             tipoJornada.value('@HoraEntrada','VARCHAR(40)') AS horaEntrada,
-            tipoJornada.value('@HoraSalida','VARCHAR(40)') AS horaEntrada,
+            tipoJornada.value('@HoraSalida','VARCHAR(40)') AS horaSalida
 			
 		FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -90,18 +90,17 @@ BEGIN
 
 
 
-
     INSERT INTO TipoMovimientoPlanilla
 
 		SELECT
 			tipoMovimiento.value('@Id','INT') AS id,
-			tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre,
+			tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre
 			
 		FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -109,18 +108,17 @@ BEGIN
 
     
 
-
     INSERT INTO Feriados
 
 		SELECT
-			feriado.value('@Fecha','INT') AS fecha,
-			feriado.value('@Nombre','VARCHAR(40)') AS nombre,
+			feriado.value('@Fecha','VARCHAR(64)') AS fecha,
+			feriado.value('@Nombre','VARCHAR(64)') AS nombre
 			
-		FROM
+		FROM 
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -134,24 +132,22 @@ BEGIN
 			tipoDeduccion.value('@Id','INT') AS id,
 			tipoDeduccion.value('@Nombre','VARCHAR(40)') AS nombre,
 			tipoDeduccion.value('@Obligatorio','VARCHAR(40)') AS esObligatorio,
-            tipoDeduccion.value('@Porcentual','VARCHAR(40)') AS porcentual,
-            tipoDeduccion.value('@Valor','VARCHAR(40)') AS valor,
+            tipoDeduccion.value('@Porcentual','VARCHAR(40)') AS esPorcentual
+            --tipoDeduccion.value('@Valor','VARCHAR(40)') AS valor
 
-            IF esObligatorio = "Si" 
-                INSERT INTO DeduccionPorcentualObligatoria
-					VALUES 
-					(id
-					, valor)
+
 		FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 1\Proyecto-1-Bases\SQL\StoredProcedures\Catalogo_con_ID_BD.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
-			CROSS APPLY c.nodes('Datos/Catalogos/Deducciones/TipoDeDeduccion') AS A(tipoDeduccion)
+			CROSS APPLY c.nodes('Datos/Catalogos/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
 
 	SET NOCOUNT OFF
 END
 GO
+
+EXEC sp_CargarXML
