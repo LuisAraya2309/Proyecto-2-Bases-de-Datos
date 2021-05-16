@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[DeduccionXEmpleadoXMes]    Script Date: 06/05/2021 04:37:51 p. m. ******/
+/****** Object:  Table [dbo].[DeduccionXEmpleadoXMes]    Script Date: 16/05/2021 12:21:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -18,5 +18,19 @@ CREATE TABLE [dbo].[DeduccionXEmpleadoXMes](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[DeduccionXEmpleadoXMes]  WITH CHECK ADD  CONSTRAINT [FK_DeduccionXEmpleadoXMes_PlanillaXMesXEmpleado] FOREIGN KEY([IdPlanillaXMesXEmpleado])
+REFERENCES [dbo].[PlanillaXMesXEmpleado] ([Id])
+GO
+
+ALTER TABLE [dbo].[DeduccionXEmpleadoXMes] CHECK CONSTRAINT [FK_DeduccionXEmpleadoXMes_PlanillaXMesXEmpleado]
+GO
+
+ALTER TABLE [dbo].[DeduccionXEmpleadoXMes]  WITH CHECK ADD  CONSTRAINT [FK_DeduccionXEmpleadoXMes_TipoDeduccion] FOREIGN KEY([IdTipoDeduccion])
+REFERENCES [dbo].[TipoDeduccion] ([Id])
+GO
+
+ALTER TABLE [dbo].[DeduccionXEmpleadoXMes] CHECK CONSTRAINT [FK_DeduccionXEmpleadoXMes_TipoDeduccion]
 GO
 

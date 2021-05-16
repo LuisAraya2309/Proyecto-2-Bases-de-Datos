@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[Departamento]    Script Date: 06/05/2021 04:38:16 p. m. ******/
+/****** Object:  Table [dbo].[Departamento]    Script Date: 16/05/2021 12:21:46 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
