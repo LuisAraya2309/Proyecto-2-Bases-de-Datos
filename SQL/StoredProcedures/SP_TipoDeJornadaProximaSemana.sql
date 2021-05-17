@@ -16,9 +16,6 @@ AS
 BEGIN
 	-- Codigo para probar el SP
 
-    --DECLARE
-		
-
     --EXEC dbo.sp_EditarEmpleado 
 		
 

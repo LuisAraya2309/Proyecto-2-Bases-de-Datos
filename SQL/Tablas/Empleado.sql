@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[Empleado]    Script Date: 16/05/2021 12:22:12 p. m. ******/
+/****** Object:  Table [dbo].[Empleado]    Script Date: 17/05/2021 12:15:33 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -46,10 +46,10 @@ GO
 ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_TipoDocIdentidad]
 GO
 
-ALTER TABLE [dbo].[Empleado]  WITH CHECK ADD  CONSTRAINT [FK_Empleado_Usuarios] FOREIGN KEY([IdUsuarios])
-REFERENCES [dbo].[Usuarios] ([Id])
+ALTER TABLE [dbo].[Empleado]  WITH CHECK ADD  CONSTRAINT [FK_Empleado_Usuario] FOREIGN KEY([IdUsuarios])
+REFERENCES [dbo].[Usuario] ([Id])
 GO
 
-ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_Usuarios]
+ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_Usuario]
 GO
 
