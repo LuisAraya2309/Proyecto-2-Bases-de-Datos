@@ -104,7 +104,7 @@
         <AsociaEmpleadoConDeduccion IdDeduccion="2" Monto="20000" ValorDocumentoIdentidad="73489463" />
     </Operacion>
     <Operacion Fecha="2021-02-06">
-        <MarcaDeAsistencia FechaEntrada="2021-02-06 07:59 AM" FechaSalida="2021-02-06 06:07 PM" ValorDocumentoIdentidad="92500121" />
+      2  <MarcaDeAsistencia FechaEntrada="2021-02-06 07:59 AM" FechaSalida="2021-02-06 06:07 PM" ValorDocumentoIdentidad="92500121" />
         <MarcaDeAsistencia FechaEntrada="2021-02-06 12:03 AM" FechaSalida="2021-02-06 06:09 AM" ValorDocumentoIdentidad="71070722" />
         <MarcaDeAsistencia FechaEntrada="2021-02-06 03:36 PM" FechaSalida="2021-02-06 11:54 PM" ValorDocumentoIdentidad="76673300" />
         <MarcaDeAsistencia FechaEntrada="2021-02-06 03:53 PM" FechaSalida="2021-02-06 11:24 PM" ValorDocumentoIdentidad="33649224" />
