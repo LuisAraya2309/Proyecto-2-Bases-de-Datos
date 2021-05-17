@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[Empleado]    Script Date: 17/05/2021 12:15:33 p. m. ******/
+/****** Object:  Table [dbo].[Empleado]    Script Date: 17/05/2021 02:09:36 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,12 +11,12 @@ GO
 CREATE TABLE [dbo].[Empleado](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Nombre] [varchar](64) NOT NULL,
-	[ValorDocIdentidad] [int] NOT NULL,
-	[FechaNacimiento] [int] NOT NULL,
+	[ValorDocumentoIdentidad] [int] NOT NULL,
+	[FechaNacimiento] [date] NOT NULL,
 	[IdPuesto] [int] NOT NULL,
 	[IdDepartamento] [int] NOT NULL,
 	[IdTipoDocumentoIdentidad] [int] NOT NULL,
-	[IdUsuarios] [int] NOT NULL,
+	[IdUsuario] [int] NOT NULL,
 	[Activo] [bit] NOT NULL,
  CONSTRAINT [PK_Empleado] PRIMARY KEY CLUSTERED 
 (
@@ -46,10 +46,10 @@ GO
 ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_TipoDocIdentidad]
 GO
 
-ALTER TABLE [dbo].[Empleado]  WITH CHECK ADD  CONSTRAINT [FK_Empleado_Usuario] FOREIGN KEY([IdUsuarios])
-REFERENCES [dbo].[Usuario] ([Id])
+ALTER TABLE [dbo].[Empleado]  WITH CHECK ADD  CONSTRAINT [FK_Empleado_Usuarios] FOREIGN KEY([IdUsuario])
+REFERENCES [dbo].[Usuarios] ([Id])
 GO
 
-ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_Usuario]
+ALTER TABLE [dbo].[Empleado] CHECK CONSTRAINT [FK_Empleado_Usuarios]
 GO
 
