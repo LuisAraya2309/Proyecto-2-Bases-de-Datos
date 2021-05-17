@@ -147,15 +147,43 @@ BEGIN
 			CROSS APPLY c.nodes('Datos/Catalogos/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
 
 
-	 INSERT INTO Usuarios
+	 --INSERT INTO Usuarios
 
-		SELECT
-			usuario.value('@pwd','VARCHAR(64)') AS pwd,
-			usuario.value('@tipo','INT') AS tipo,
-			usuario.value('@username','INT') AS username,
-			1 AS activo
+		--SELECT
+			--usuario.value('@pwd','INT') AS pwd,
+			--usuario.value('@tipo','INT') AS tipo,
+			--usuario.value('@username','VARCHAR(64)') AS username,
+			--1 AS activo
 			
-		FROM 
+		--FROM 
+		--(
+			--SELECT CAST(c AS XML) FROM
+			--OPENROWSET(
+				--BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				--SINGLE_BLOB
+			--) AS T(c)
+			--) AS S(C)
+			--CROSS APPLY c.nodes('Datos/Usuarios/Usuario') AS A(usuario);
+
+
+
+
+
+	
+	(SELECT 
+		empleado.value('@FechaNacimiento','VARCHAR(40)')  AS fechaNacimiento,
+		empleado.value('@Nombre','VARCHAR(40)') AS nombre,
+		empleado.value('@Password','INT') AS pwd,
+		empleado.value('@Username','VARCHAR(40)') AS username,
+		empleado.value('@ValorDocumentoIdentidad','INT') AS valorDocIdentidad,
+		empleado.value('@idDepartamento','INT') AS idDepartamento,
+		empleado.value('@idPuesto','INT') AS idPuesto,
+		empleado.value('@idTipoDocumentacionIdentidad','INT') AS idTipoDoc
+		
+		
+
+
+	FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
@@ -163,26 +191,10 @@ BEGIN
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
-			CROSS APPLY c.nodes('Datos/Usuarios/Usuario') AS A(usuario)
-
-
-
-		SELECT
-			
-
-
-		FROM
-			(
-				SELECT CAST(c AS XML) FROM
-				OPENROWSET(
-					BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-					SINGLE_BLOB
-				) AS T(c)
-				) AS S(C)
-				CROSS APPLY c.nodes('Datos/Operacion/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
+			CROSS APPLY c.nodes('Datos/Operacion/NuevoEmpleado') AS A (empleado));
 	
-
 	
+	EXEC sp_InsertarEmpleado nombre,idTipoDoc,valorDocIdentidad,fechaNacimiento,idPuesto,idDepartamento,username,pwd,0
 	
 	
 	
