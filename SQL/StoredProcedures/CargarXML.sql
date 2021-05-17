@@ -27,7 +27,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -45,7 +45,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -63,7 +63,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -82,7 +82,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -100,7 +100,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -118,7 +118,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -140,12 +140,53 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
 			CROSS APPLY c.nodes('Datos/Catalogos/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
 
+
+	 INSERT INTO Usuarios
+
+		SELECT
+			usuario.value('@pwd','VARCHAR(64)') AS pwd,
+			usuario.value('@tipo','INT') AS tipo,
+			usuario.value('@username','INT') AS username,
+			1 AS activo
+			
+		FROM 
+		(
+			SELECT CAST(c AS XML) FROM
+			OPENROWSET(
+				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				SINGLE_BLOB
+			) AS T(c)
+			) AS S(C)
+			CROSS APPLY c.nodes('Datos/Usuarios/Usuario') AS A(usuario)
+
+
+
+		SELECT
+			
+
+
+		FROM
+			(
+				SELECT CAST(c AS XML) FROM
+				OPENROWSET(
+					BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+					SINGLE_BLOB
+				) AS T(c)
+				) AS S(C)
+				CROSS APPLY c.nodes('Datos/Operacion/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
+	
+
+	
+	
+	
+	
+	
 	SET NOCOUNT OFF
 END
 GO
