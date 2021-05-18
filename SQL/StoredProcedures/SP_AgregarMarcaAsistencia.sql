@@ -27,7 +27,7 @@ BEGIN
 	= (SELECT E.id 
 	FROM dbo.Empleado AS E
 	WHERE 
-		E.ValorDocIdentidad = @inValorDocumentoIdentidad);
+		E.ValorDocumentoIdentidad = @inValorDocumentoIdentidad);
 
 	DECLARE @idJornada INT
 	= (SELECT J.id

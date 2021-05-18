@@ -31,7 +31,7 @@ BEGIN
 			Jornada.IdEmpleado = (SELECT E.id 
 								 FROM dbo.Empleado AS E
 								 WHERE 
-									E.ValorDocIdentidad = @inValorDocumentoIdentidad);
+									E.ValorDocumentoIdentidad = @inValorDocumentoIdentidad);
 
 	SET NOCOUNT OFF;
 

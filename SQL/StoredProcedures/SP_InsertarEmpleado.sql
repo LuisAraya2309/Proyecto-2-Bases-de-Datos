@@ -60,7 +60,7 @@ BEGIN
 	VALUES
 	(@inNuevoNombre
 	, @inNuevoValorIdentidad
-	, Cast(@inNuevoFechaNacimiento AS DATE)
+	, CAST(@inNuevoFechaNacimiento AS DATE)
 	, @inIdPuesto
 	, @inIdDepartamento
 	, @inIdTipoIdentificacion
