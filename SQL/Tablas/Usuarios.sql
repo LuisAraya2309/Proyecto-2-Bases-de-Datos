@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[Usuarios]    Script Date: 17/05/2021 02:09:49 p. m. ******/
+/****** Object:  Table [dbo].[Usuarios]    Script Date: 18/05/2021 04:13:11 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -11,9 +11,10 @@ GO
 CREATE TABLE [dbo].[Usuarios](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Username] [varchar](64) NOT NULL,
-	[Password] [int] NOT NULL,
+	[Pwd] [int] NOT NULL,
+	[Tipo] [int] NOT NULL,
 	[Activo] [bit] NOT NULL,
- CONSTRAINT [PK_Usuario] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Usuarios] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]

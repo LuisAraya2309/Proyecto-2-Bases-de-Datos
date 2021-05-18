@@ -22,16 +22,11 @@ BEGIN
 	SET NOCOUNT ON;
 
 
-	UPDATE dbo.Jornada 
-
-		SET 
-			IdTipoJornada = @inIdNuevoTipoJornada
-
-		WHERE
-			Jornada.IdEmpleado = (SELECT E.id 
-								 FROM dbo.Empleado AS E
-								 WHERE 
-									E.ValorDocumentoIdentidad = @inValorDocumentoIdentidad);
+	INSERT INTO dbo.Jornada 
+	VALUES(
+	@inIdNuevoTipoJornada
+	, (SELECT E.Id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = @inValorDocumentoIdentidad)
+	,1 )
 
 	SET NOCOUNT OFF;
 
