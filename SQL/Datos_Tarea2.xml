@@ -23,7 +23,6 @@
 
         </Departamentos>
 
-
         <Tipos_de_Documento_de_Identificacion>
             <TipoIdDoc Id="1" Nombre="Identidy Card" />
             <TipoIdDoc Id="2" Nombre="Passport" />
@@ -54,7 +53,6 @@
             <TipoDeDeduccion Id="1" Nombre="Obligatorio de Ley" Obligatorio="Si" Porcentual="Si" Valor="0.095" />
             <TipoDeDeduccion Id="2" Nombre="Ahorro Asociacion Solidarista" Obligatorio="No" Porcentual="Si" Valor="0.05" />
             <TipoDeDeduccion Id="3" Nombre="Ahorro Vacacional" Obligatorio="No" Porcentual="No" Valor="0" />
-
             <TipoDeDeduccion Id="4" Nombre="Pension Alimenticia" Obligatorio="No" Porcentual="No" Valor="0" />
         </Deducciones>
     </Catalogos>
@@ -63,8 +61,6 @@
         <Usuario pwd="1234" tipo="1" username="Goku" />
         <Usuario pwd="1234" tipo="1" username="Willy" />
     </Usuarios>
-
-
 
     <Operacion Fecha="2021-02-04">
         <NuevoEmpleado FechaNacimiento="1998-02-24" Nombre="Mario Ferrer Calvo" Password="6512" Username="MFerrer" ValorDocumentoIdentidad="92500121" idDepartamento="4" idPuesto="10" idTipoDocumentacionIdentidad="2" />

@@ -27,7 +27,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -45,7 +45,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -63,7 +63,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -82,11 +82,11 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
-			CROSS APPLY c.nodes('Datos/Catalogos/TiposDeJornada/TipoJornada') AS A(tipoJornada)
+			CROSS APPLY c.nodes('Datos/Catalogos/TiposDeJornada/TipoDeJornada') AS A(tipoJornada)
 
 
 
@@ -100,7 +100,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -118,7 +118,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -140,43 +140,44 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
 			CROSS APPLY c.nodes('Datos/Catalogos/Deducciones/TipoDeDeduccion') AS A (tipoDeduccion)
 
 
-	 --INSERT INTO Usuarios
+	 INSERT INTO Usuarios
 
-		--SELECT
-			--usuario.value('@pwd','INT') AS pwd,
-			--usuario.value('@tipo','INT') AS tipo,
-			--usuario.value('@username','VARCHAR(64)') AS username,
-			--1 AS activo
+		SELECT
+		    usuario.value('@username','VARCHAR(64)') AS username,
+			usuario.value('@pwd','INT') AS pwd,
+			usuario.value('@tipo','INT') AS tipo,
+			1 AS activo
 			
-		--FROM 
-		--(
-			--SELECT CAST(c AS XML) FROM
-			--OPENROWSET(
-				--BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-				--SINGLE_BLOB
-			--) AS T(c)
-			--) AS S(C)
-			--CROSS APPLY c.nodes('Datos/Usuarios/Usuario') AS A(usuario);
+		FROM 
+		(
+			SELECT CAST(c AS XML) FROM
+			OPENROWSET(
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				SINGLE_BLOB
+			) AS T(c)
+			) AS S(C)
+			CROSS APPLY c.nodes('Datos/Usuarios/Usuario') AS A(usuario);
 
 INSERT INTO Usuarios
 	SELECT
 
 		empleado.value('@Username','VARCHAR(64)') AS username,
 		empleado.value('@Password','INT') AS pwd,
+		'2' AS tipo,
 		1 AS activo
 		
 	FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -191,67 +192,74 @@ INSERT INTO Empleado
 		empleado.value('@idPuesto','INT') AS idPuesto,
 		empleado.value('@idDepartamento','INT') AS idDepartamento,
 		empleado.value('@idTipoDocumentacionIdentidad','INT') AS idTipoDoc,
-		(SELECT id FROM Usuarios AS U WHERE U.Username = empleado.value('@username','VARCHAR(64)')),
+		(SELECT id FROM Usuarios AS U WHERE U.Pwd = empleado.value('@Password','INT')),
 		1 AS activo
 		
 	FROM
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
 			CROSS APPLY c.nodes('Datos/Operacion/NuevoEmpleado') AS A (empleado)
 
-			
 
-	--SELECT
+INSERT INTO dbo.MesPlanilla
+Values(
+	1
+	,'2021-05-01'
+	,'2021-05-31'
+)
 
-		--tipoJornadaProximaSemana.value('@IdJornada','INT') AS idJornada,
-		--tipoJornadaProximaSemana.value('@ValorDocumentoIdentidad','INT') AS ValorDocumentoIdentidad
+
+INSERT INTO dbo.SemanaPlanilla
+Values(
+	1
+	,'2021-05-17'
+	,'2021-05-23'
+	,1
+)
+
+INSERT INTO dbo.Jornada
+	SELECT
+
+		tipoJornadaProximaSemana.value('@IdJornada','INT') AS idJornada,
+		(SELECT E.Id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = tipoJornadaProximaSemana.value('@ValorDocumentoIdentidad','INT')),
+		1 AS IdSemanaPlanilla
 		
-	--FROM
-	--(
-		--SELECT CAST(c AS XML) FROM
-		--OPENROWSET(
-			--BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-			--SINGLE_BLOB
-		--) AS T(c)
-		--) AS S(C)
-		--CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
-
-	--EXEC sp_TipoDeJornadaProximaSemana ValorDocumentoIdentidad,idJornada,0;
+	FROM 
+	(
+		SELECT CAST(c AS XML) FROM
+		OPENROWSET(
+			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			SINGLE_BLOB
+		) AS T(c)
+		) AS S(C)
+		CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
 
 
---EXEC sp_AgregarMarcaAsistencia valorDocumentoIdentidad,fechaEntrada,fechaSalida,0
-	--SELECT
 
-		--marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
-		--marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
-		--marcaAsistencia.value('@ValorDocumentoIdentidad','INT') AS valorDocumentoIdentidad
+EXEC sp_AgregarMarcaAsistencia valorDocumentoIdentidad,fechaEntrada,fechaSalida,0
+	SELECT
 
-	--FROM
-	--(
-		--SELECT CAST(c AS XML) FROM
-		--OPENROWSET(
-			--BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-			--SINGLE_BLOB
-		--) AS T(c)
-		--) AS S(C)
-		--CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
+		marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
+		marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
+		marcaAsistencia.value('@ValorDocumentoIdentidad','INT') AS valorDocumentoIdentidad
+
+	FROM
+	(
+		SELECT CAST(c AS XML) FROM
+		OPENROWSET(
+			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			SINGLE_BLOB
+		) AS T(c)
+		) AS S(C)
+		CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
 
 	
 END
 GO
 	
 EXEC sp_CargarXML
-
-	
-	
-	
-	
-
-
---USE SistemaObrero
---DROP PROCEDURE sp_CargarXML

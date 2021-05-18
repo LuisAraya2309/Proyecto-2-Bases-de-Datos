@@ -1,7 +1,7 @@
 USE [SistemaObrero]
 GO
 
-/****** Object:  Table [dbo].[MesPlanilla]    Script Date: 06/05/2021 04:39:34 p. m. ******/
+/****** Object:  Table [dbo].[MesPlanilla]    Script Date: 18/05/2021 04:13:39 p. m. ******/
 SET ANSI_NULLS ON
 GO
 
@@ -9,9 +9,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[MesPlanilla](
-	[Id] [int] NOT NULL,
-	[FechaInicio] [varchar](64) NOT NULL,
-	[FechaFin] [varchar](64) NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[FechaIncio] [date] NOT NULL,
+	[FechaFinal] [date] NOT NULL,
  CONSTRAINT [PK_MesPlanilla] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
