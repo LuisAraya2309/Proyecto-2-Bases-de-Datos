@@ -208,18 +208,18 @@ INSERT INTO Empleado
 
 INSERT INTO dbo.MesPlanilla
 Values(
-	1
-	,'2021-05-01'
+	'2021-05-01'
 	,'2021-05-31'
 )
 
-
 INSERT INTO dbo.SemanaPlanilla
 Values(
-	1
-	,'2021-05-17'
+	'2021-05-17'
 	,'2021-05-23'
-	,1
+	,( SELECT Id 
+	FROM dbo.MesPlanilla
+	WHERE 
+		Id = (SELECT IDENT_CURRENT('MesPlanilla')))
 )
 
 INSERT INTO dbo.Jornada
@@ -227,7 +227,7 @@ INSERT INTO dbo.Jornada
 
 		tipoJornadaProximaSemana.value('@IdJornada','INT') AS idJornada,
 		(SELECT E.Id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = tipoJornadaProximaSemana.value('@ValorDocumentoIdentidad','INT')),
-		1 AS IdSemanaPlanilla
+		(SELECT Id FROM dbo.SemanaPlanilla WHERE Id = (SELECT IDENT_CURRENT('SemanaPlanilla')))
 		
 	FROM 
 	(
@@ -239,26 +239,22 @@ INSERT INTO dbo.Jornada
 		) AS S(C)
 		CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
 
-
-
-EXEC sp_AgregarMarcaAsistencia valorDocumentoIdentidad,fechaEntrada,fechaSalida,0
+INSERT INTO dbo.MarcaAsistencia
 	SELECT
 
 		marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
 		marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
-		marcaAsistencia.value('@ValorDocumentoIdentidad','INT') AS valorDocumentoIdentidad
-
+		(SELECT J.id FROM dbo.Jornada AS J WHERE CAST(J.IdEmpleado AS VARCHAR(64)) like CAST((SELECT E.id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = marcaAsistencia.value('@ValorDocumentoIdentidad','INT')) AS VARCHAR(64)))
 	FROM
 	(
 		SELECT CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
 		CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
 
-	
 END
 GO
 	
