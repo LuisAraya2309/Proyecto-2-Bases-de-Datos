@@ -2,6 +2,7 @@ USE SistemaObrero
 
 delete from SemanaPlanilla;
 delete from MesPlanilla;
+delete from DeduccionXEmpleado;
 delete from Jornada;
 delete from Empleado;
 delete from Departamento;

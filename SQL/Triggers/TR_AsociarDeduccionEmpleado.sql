@@ -1,5 +1,5 @@
 USE SistemaObrero
-
+GO
 CREATE TRIGGER  TR_AsociarDeduccionEmpleado
 
 ON Empleado
@@ -16,6 +16,8 @@ DECLARE @IdEmpleado INT
 
 
 EXECUTE sp_AsignarDeduccionesEmpleado  @IdEmpleado,0;
+
+--DROP TRIGGER TR_AsociarDeduccionEmpleado
 
 
 
