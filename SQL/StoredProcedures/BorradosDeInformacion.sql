@@ -1,5 +1,6 @@
 USE SistemaObrero
 
+delete from MarcaAsistencia;
 delete from SemanaPlanilla;
 delete from MesPlanilla;
 delete from DeduccionXEmpleado;

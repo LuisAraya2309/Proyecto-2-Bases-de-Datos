@@ -222,6 +222,7 @@ Values(
 		Id = (SELECT IDENT_CURRENT('MesPlanilla')))
 )
 
+--INSERT utilizado para asignar una nueva jornada a un Empleado
 INSERT INTO dbo.Jornada
 	SELECT
 
@@ -239,12 +240,17 @@ INSERT INTO dbo.Jornada
 		) AS S(C)
 		CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
 
+--INSERT utilizado para asignar una Marca de asistencia a un Empleado
 INSERT INTO dbo.MarcaAsistencia
 	SELECT
 
 		marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
 		marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
-		(SELECT J.id FROM dbo.Jornada AS J WHERE CAST(J.IdEmpleado AS VARCHAR(64)) like CAST((SELECT E.id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = marcaAsistencia.value('@ValorDocumentoIdentidad','INT')) AS VARCHAR(64)))
+		(SELECT TOP 1 J.id 
+		FROM dbo.Jornada AS J 
+		WHERE J.IdEmpleado IN (SELECT TOP 1 E.id 
+								FROM dbo.Empleado AS E 
+								WHERE E.ValorDocumentoIdentidad = marcaAsistencia.value('@ValorDocumentoIdentidad','INT')))
 	FROM
 	(
 		SELECT CAST(c AS XML) FROM
