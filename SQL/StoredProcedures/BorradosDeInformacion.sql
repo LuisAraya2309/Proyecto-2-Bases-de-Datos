@@ -1,8 +1,8 @@
 USE SistemaObrero
 
+
+
 delete from MarcaAsistencia;
-delete from SemanaPlanilla;
-delete from MesPlanilla;
 delete from DeduccionXEmpleado;
 delete from Jornada;
 delete from Empleado;
@@ -12,6 +12,8 @@ delete from TipoDeduccion;
 delete from TipoDocIdentidad;
 delete from Usuarios;
 delete from TipoJornada;
+delete from SemanaPlanilla;
+delete from MesPlanilla;
 DROP PROCEDURE sp_CargarXML
 DBCC CHECKIDENT ('Empleado', RESEED, 0)
 DBCC CHECKIDENT ('MarcaAsistencia', RESEED, 0)

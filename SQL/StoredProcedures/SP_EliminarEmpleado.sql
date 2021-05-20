@@ -4,7 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE dbo.sp_EliminarEmpleado
-	@inNombre VARCHAR(40)
+	@inValorDocIdentidad INT
 	, @outResultCode INT OUTPUT
 
 --Elimina un empleado
@@ -22,9 +22,9 @@ BEGIN
 
 	UPDATE dbo.Empleado
 	SET 
-		activo = 0
+		Activo = 0
 	WHERE 
-		Nombre = @inNombre
+		ValorDocumentoIdentidad = @inValorDocIdentidad
 
 
 	SET NOCOUNT OFF;
