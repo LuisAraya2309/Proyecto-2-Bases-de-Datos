@@ -294,26 +294,67 @@ END
 DROP TABLE #EliminarTemporal;
 
 
-/*
-UPDATE dbo.Empleado
-	SET
-		Empleado.Activo  = 0
-	WHERE
-	 Empleado.ValorDocumentoIdentidad IN (
-								 SELECT
-									eliminarEmpleado.value('@ValorDocumentoIdentidad','INT') 
-								FROM
-								(
-									SELECT  CAST(c AS XML) FROM
-									OPENROWSET(
-										BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-										SINGLE_BLOB
-									) AS T(c)
-									) AS S(C)
-									CROSS APPLY c.nodes('Datos/Operacion/EliminarEmpleado') AS A (eliminarEmpleado)
-								 )
+-----------------------------------------------------------------
 
-*/
+DECLARE @countFechas INT;
+DECLARE @excepcionPrimera INT;
+DECLARE @fechaInicio DATE;
+SET @excepcionPrimera = 1;
+CREATE TABLE #FechasTemporales(id INT,fecha DATE);
+
+INSERT INTO  #FechasTemporales
+
+			SELECT
+					1 AS id,
+					operacion.value('@Fecha','DATE') 
+				FROM
+				(
+					SELECT  CAST(c AS XML) FROM
+					OPENROWSET(
+						BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+						SINGLE_BLOB
+					) AS T(c)
+					) AS S(C)
+					CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion);
+
+PRINT('Fechas de todo el XML')
+
+SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+
+WHILE @countFechas > 0
+BEGIN
+	SET LANGUAGE Spanish 
+    DECLARE @fechaActual DATE = (SELECT TOP(1) fecha FROM #FechasTemporales);
+    
+	IF @excepcionPrimera = 1
+		SET @fechaInicio = (SELECT DATEADD(DAY,1,@fechaActual))
+
+
+	ELSE
+		 DECLARE @mesActual INT =  DATEPART (MONTH,@fechaActual) 
+		 DECLARE @diaActual INT  =  DATEPART (WEEKDAY,@fechaActual)
+		 DECLARE @juevesProximo INT =  DATEPART(MONTH,(SELECT DATEADD(DAY,7,@fechaActual)))
+		 IF @diaActual = 4 AND @mesActual <> @juevesProximo
+
+			INSERT INTO dbo.MesPlanilla
+				VALUES(
+					@fechaInicio
+					, (SELECT DATEADD(DAY,7,@fechaActual))
+				)
+
+			SET @fechaInicio = (SELECT DATEADD(DAY,8,@fechaActual))
+
+	DELETE TOP (1) FROM #FechasTemporales
+    SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+	SET @excepcionPrimera = 0;
+
+END
+
+DROP TABLE #FechasTemporales;
+
+SELECT * FROM MesPlanilla;
+
+
 END
 GO
 	
