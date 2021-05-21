@@ -27,7 +27,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -45,7 +45,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -63,7 +63,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -82,7 +82,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -100,7 +100,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -118,7 +118,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -140,7 +140,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -159,7 +159,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -177,7 +177,7 @@ INSERT INTO Usuarios
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -199,7 +199,7 @@ INSERT INTO Empleado
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -219,7 +219,7 @@ INSERT INTO  #FechasTemporales
 	(
 		SELECT  CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
@@ -227,7 +227,7 @@ INSERT INTO  #FechasTemporales
 	WHERE
 		(((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4) OR ((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 5));
 
-s
+
 SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
 SELECT @countSemanas = COUNT(*) FROM #FechasTemporales;
 
@@ -294,7 +294,7 @@ INSERT INTO dbo.Jornada
 	(
 		SELECT CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
@@ -315,11 +315,15 @@ INSERT INTO dbo.MarcaAsistencia
 	(
 		SELECT CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
 		CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
+
+
+
+
 
 DECLARE @count INT;
 CREATE TABLE #EliminarTemporal(id INT, valorDocIdentidad INT);
@@ -333,7 +337,7 @@ INSERT INTO #EliminarTemporal
 		(
 			SELECT  CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -363,5 +367,9 @@ GO
 EXEC sp_CargarXML
 
 /*
-Path 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml'
+Path ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml'
+*/
+
+/*
+Path ':\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml'
 */
