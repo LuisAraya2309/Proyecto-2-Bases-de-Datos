@@ -207,13 +207,13 @@ INSERT INTO Empleado
 
 
 INSERT INTO dbo.MesPlanilla
-Values(
+values(
 	'2021-05-01'
 	,'2021-05-31'
 )
 
 INSERT INTO dbo.SemanaPlanilla
-Values(
+values(
 	'2021-05-17'
 	,'2021-05-23'
 	,( SELECT Id 
@@ -304,55 +304,45 @@ CREATE TABLE #FechasTemporales(id INT,fecha DATE);
 
 INSERT INTO  #FechasTemporales
 
-			SELECT
-					1 AS id,
-					operacion.value('@Fecha','DATE') 
-				FROM
-				(
-					SELECT  CAST(c AS XML) FROM
-					OPENROWSET(
-						BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-						SINGLE_BLOB
-					) AS T(c)
-					) AS S(C)
-					CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion);
+	SELECT
+		1 AS id,
+		operacion.value('@Fecha','DATE') 
+	FROM
+	(
+		SELECT  CAST(c AS XML) FROM
+		OPENROWSET(
+			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			SINGLE_BLOB
+		) AS T(c)
+		) AS S(C)
+		CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
+	WHERE
+		(((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4) OR ((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 5));
 
-PRINT('Fechas de todo el XML')
 
 SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+SELECT * FROM #FechasTemporales;
 
+/*
 WHILE @countFechas > 0
-BEGIN
-	SET LANGUAGE Spanish 
-    DECLARE @fechaActual DATE = (SELECT TOP(1) fecha FROM #FechasTemporales);
-    
-	IF @excepcionPrimera = 1
-		SET @fechaInicio = (SELECT DATEADD(DAY,1,@fechaActual))
+	BEGIN
+		SET LANGUAGE Spanish 
+		DECLARE @fechaActual DATE = (SELECT TOP(1) fecha FROM #FechasTemporales);
+		DECLARE @diaActual INT = (SELECT DATEPART(WEEKDAY,@fechaActual));
+		
 
 
-	ELSE
-		 DECLARE @mesActual INT =  DATEPART (MONTH,@fechaActual) 
-		 DECLARE @diaActual INT  =  DATEPART (WEEKDAY,@fechaActual)
-		 DECLARE @juevesProximo INT =  DATEPART(MONTH,(SELECT DATEADD(DAY,7,@fechaActual)))
-		 IF @diaActual = 4 AND @mesActual <> @juevesProximo
 
-			INSERT INTO dbo.MesPlanilla
-				VALUES(
-					@fechaInicio
-					, (SELECT DATEADD(DAY,7,@fechaActual))
-				)
+		DELETE TOP (1) FROM #FechasTemporales
+		SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+		
 
-			SET @fechaInicio = (SELECT DATEADD(DAY,8,@fechaActual))
-
-	DELETE TOP (1) FROM #FechasTemporales
-    SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
-	SET @excepcionPrimera = 0;
-
-END
-
+	END
+*/
+DELETE TOP (1) FROM #FechasTemporales;
 DROP TABLE #FechasTemporales;
 
-SELECT * FROM MesPlanilla;
+--SELECT * FROM MesPlanilla;
 
 
 END
@@ -360,3 +350,8 @@ GO
 	
 EXEC sp_CargarXML
 
+SET LANGUAGE Spanish;
+DECLARE @prueba DATE;
+SET @prueba = CAST( GETDATE() AS Date ) ;
+DECLARE @pruebaProximo INT =  DATEPART(MONTH,(SELECT DATEADD(DAY,7,@prueba)))
+SELECT @pruebaProximo;
