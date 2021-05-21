@@ -1,7 +1,4 @@
 USE SistemaObrero
-
-
-
 delete from MarcaAsistencia;
 delete from DeduccionXEmpleado;
 delete from Jornada;

@@ -27,7 +27,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -45,7 +45,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -63,7 +63,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -82,7 +82,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -100,7 +100,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -118,7 +118,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -140,7 +140,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -159,7 +159,7 @@ BEGIN
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -177,7 +177,7 @@ INSERT INTO Usuarios
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -199,28 +199,88 @@ INSERT INTO Empleado
 		(
 			SELECT CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
 			CROSS APPLY c.nodes('Datos/Operacion/NuevoEmpleado') AS A (empleado)
 
+--El siguiente proceso es para insertar las semanas y meses
+DECLARE @countFechas INT; DECLARE @countSemanas INT;
+CREATE TABLE #FechasTemporales(fecha DATE);
+CREATE TABLE #FechasSemana(fecha DATE);
+SET LANGUAGE Spanish 
 
-INSERT INTO dbo.MesPlanilla
-values(
-	'2021-05-01'
-	,'2021-05-31'
-)
+INSERT INTO  #FechasTemporales
 
-INSERT INTO dbo.SemanaPlanilla
-values(
-	'2021-05-17'
-	,'2021-05-23'
-	,( SELECT Id 
-	FROM dbo.MesPlanilla
-	WHERE 
-		Id = (SELECT IDENT_CURRENT('MesPlanilla')))
-)
+	SELECT
+		operacion.value('@Fecha','DATE') 
+	FROM
+	(
+		SELECT  CAST(c AS XML) FROM
+		OPENROWSET(
+			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			SINGLE_BLOB
+		) AS T(c)
+		) AS S(C)
+		CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
+	WHERE
+		(((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4) OR ((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 5));
+
+s
+SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+SELECT @countSemanas = COUNT(*) FROM #FechasTemporales;
+
+--Se crea la copia de la fechasTemporales
+INSERT INTO #FechasSemana
+
+	SELECT fecha
+	FROM #FechasTemporales
+
+--Se insertan los meses 
+DECLARE @fechaInicio DATE = (SELECT DATEADD(DAY,1,(SELECT TOP (1) fecha FROM #FechasTemporales)));
+DECLARE @mesActual INT = (SELECT DATEPART(MONTH, (SELECT TOP (1) fecha FROM #FechasTemporales)));
+
+WHILE @countFechas > 0
+
+	BEGIN
+		DECLARE @fechaActual DATE = (SELECT TOP(1) fecha FROM #FechasTemporales);
+
+		IF (SELECT DATEPART(WEEKDAY,@fechaActual)) = 4 AND  @mesActual <> (SELECT DATEPART(MONTH,@fechaActual))
+			BEGIN
+				INSERT INTO MesPlanilla
+				VALUES(
+					@fechaInicio
+					,@fechaActual
+				)
+				SET @fechaInicio = (SELECT DATEADD(DAY,1,@fechaActual));
+				SET @mesActual = (SELECT DATEPART(MONTH,@fechaActual));
+			END
+		DELETE TOP (1) FROM #FechasTemporales
+		SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
+	END
+DROP TABLE #FechasTemporales;
+
+--Se insertan las semanas
+
+WHILE @countSemanas > 0
+
+	BEGIN
+		DECLARE @fechaActualS DATE = (SELECT TOP(1) fecha FROM #FechasSemana);
+
+		IF (SELECT DATEPART(WEEKDAY,@fechaActualS)) = 5
+			BEGIN
+				INSERT INTO SemanaPlanilla
+				VALUES(
+					@fechaActualS
+					, (SELECT DATEADD(DAY,6,@fechaActualS))
+					, (SELECT id FROM MesPlanilla AS MP WHERE(SELECT DATEPART(MONTH,MP.FechaIncio)) = (SELECT DATEPART(MONTH,@fechaActualS)))
+				)
+			END
+		DELETE TOP (1) FROM #FechasSemana
+		SELECT @countSemanas = COUNT(*) FROM #FechasSemana;
+	END
+DROP TABLE #FechasSemana;
 
 --INSERT utilizado para asignar una nueva jornada a un Empleado
 INSERT INTO dbo.Jornada
@@ -234,7 +294,7 @@ INSERT INTO dbo.Jornada
 	(
 		SELECT CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
@@ -255,7 +315,7 @@ INSERT INTO dbo.MarcaAsistencia
 	(
 		SELECT CAST(c AS XML) FROM
 		OPENROWSET(
-			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+			BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 			SINGLE_BLOB
 		) AS T(c)
 		) AS S(C)
@@ -273,7 +333,7 @@ INSERT INTO #EliminarTemporal
 		(
 			SELECT  CAST(c AS XML) FROM
 			OPENROWSET(
-				BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
+				BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
 				SINGLE_BLOB
 			) AS T(c)
 			) AS S(C)
@@ -296,62 +356,12 @@ DROP TABLE #EliminarTemporal;
 
 -----------------------------------------------------------------
 
-DECLARE @countFechas INT;
-DECLARE @excepcionPrimera INT;
-DECLARE @fechaInicio DATE;
-SET @excepcionPrimera = 1;
-CREATE TABLE #FechasTemporales(id INT,fecha DATE);
-
-INSERT INTO  #FechasTemporales
-
-	SELECT
-		1 AS id,
-		operacion.value('@Fecha','DATE') 
-	FROM
-	(
-		SELECT  CAST(c AS XML) FROM
-		OPENROWSET(
-			BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml',
-			SINGLE_BLOB
-		) AS T(c)
-		) AS S(C)
-		CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
-	WHERE
-		(((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4) OR ((SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 5));
-
-
-SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
-SELECT * FROM #FechasTemporales;
-
-/*
-WHILE @countFechas > 0
-	BEGIN
-		SET LANGUAGE Spanish 
-		DECLARE @fechaActual DATE = (SELECT TOP(1) fecha FROM #FechasTemporales);
-		DECLARE @diaActual INT = (SELECT DATEPART(WEEKDAY,@fechaActual));
-		
-
-
-
-		DELETE TOP (1) FROM #FechasTemporales
-		SELECT @countFechas = COUNT(*) FROM #FechasTemporales;
-		
-
-	END
-*/
-DELETE TOP (1) FROM #FechasTemporales;
-DROP TABLE #FechasTemporales;
-
---SELECT * FROM MesPlanilla;
-
 
 END
 GO
-	
+
 EXEC sp_CargarXML
 
-SET LANGUAGE Spanish;
-DECLARE @prueba DATE;
-SET @prueba = CAST( GETDATE() AS Date ) ;
-DECLARE @pruebaProximo INT =  DATEPART(MONTH,(SELECT DATEADD(DAY,7,@prueba)))
-SELECT @pruebaProximo;
+/*
+Path 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\Datos_Tarea2.xml'
+*/
