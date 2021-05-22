@@ -1,4 +1,4 @@
-USE SistemaObrero
+USE [SistemaObrero]
 delete from MarcaAsistencia;
 delete from DeduccionXEmpleado;
 delete from Jornada;
@@ -11,6 +11,7 @@ delete from Usuarios;
 delete from TipoJornada;
 delete from SemanaPlanilla;
 delete from MesPlanilla;
+delete from Feriados;
 DROP PROCEDURE sp_SimulacionCarga;
 DROP PROCEDURE sp_CargarXML
 DROP PROCEDURE sp_CargarPuestos;
