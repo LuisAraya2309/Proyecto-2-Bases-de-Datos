@@ -7,25 +7,56 @@ GO
 
 
 CREATE PROCEDURE sp_CargarTipoMovimientoPlanilla
-
+		@OutResultCode INT OUTPUT
+	
 AS
 BEGIN
-    INSERT INTO TipoMovimientoPlanilla
+		--DECLARE
+		--		@OutResultCode INT
 
-            SELECT
-                tipoMovimiento.value('@Id','INT') AS id,
-                tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre
+		--EXEC sp_CargarTipoMovimientoPlanilla
+		--		@OutResultCode INT
+
+		SET NOCOUNT ON;
+		BEGIN TRY
+				BEGIN TRANSACTION TSaveMov
+					INSERT INTO TipoMovimientoPlanilla
+
+							SELECT
+								tipoMovimiento.value('@Id','INT') AS id,
+								tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre
                 
-            FROM
-            (
-                SELECT CAST(c AS XML) FROM
-                OPENROWSET(
-                    BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
-                    SINGLE_BLOB
-                ) AS T(c)
-                ) AS S(C)
-                CROSS APPLY c.nodes('Datos/Catalogos/TiposDeMovimiento/TipoMovimiento') AS A(tipoMovimiento)
+							FROM
+							(
+								SELECT CAST(c AS XML) FROM
+								OPENROWSET(
+									BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
+									SINGLE_BLOB
+								) AS T(c)
+								) AS S(C)
+								CROSS APPLY c.nodes('Datos/Catalogos/TiposDeMovimiento/TipoMovimiento') AS A(tipoMovimiento)
 
-    
+				COMMIT TRANSACTION TSaveMov;
+		END TRY
+		BEGIN CATCH
+
+				IF @@Trancount>0 
+					ROLLBACK TRANSACTION TSaveMov;
+				INSERT INTO dbo.Errores	VALUES (
+					SUSER_SNAME(),
+					ERROR_NUMBER(),
+					ERROR_STATE(),
+					ERROR_SEVERITY(),
+					ERROR_LINE(),
+					ERROR_PROCEDURE(),
+					ERROR_MESSAGE(),
+					GETDATE()
+				);
+
+				Set @OutResultCode=50005;
+				
+		END CATCH;
+
+		SET NOCOUNT OFF;
 END
 GO

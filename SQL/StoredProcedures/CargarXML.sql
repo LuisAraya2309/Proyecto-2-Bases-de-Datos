@@ -357,9 +357,8 @@ BEGIN
 END
 DROP TABLE #EliminarTemporal;
 
-
------------------------------------------------------------------
-
+SELECT * FROM MesPlanilla;
+SELECT * FROM SemanaPlanilla;
 
 END
 GO
