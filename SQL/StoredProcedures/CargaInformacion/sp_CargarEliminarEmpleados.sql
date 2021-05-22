@@ -19,8 +19,12 @@ BEGIN
 
 		SET NOCOUNT ON;
 		BEGIN TRY
+			
 			DECLARE @count INT;
-			CREATE TABLE #EliminarTemporal(id INT, valorDocIdentidad INT);
+			CREATE TABLE #EliminarTemporal(valorDocIdentidad INT);
+
+			SELECT
+			@OutResultCode=0 ;
 
 			BEGIN TRANSACTION TSaveMov
 				INSERT INTO #EliminarTemporal
@@ -30,7 +34,7 @@ BEGIN
 					(
 						SELECT  CAST(c AS XML) FROM
 						OPENROWSET(
-							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
+							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 							SINGLE_BLOB
 						) AS T(c)
 						) AS S(C)
@@ -54,21 +58,20 @@ BEGIN
 
 		END TRY
 		BEGIN CATCH
+			IF @@Trancount>0 
+				ROLLBACK TRANSACTION TSaveMov;
+			INSERT INTO dbo.Errores	VALUES (
+				SUSER_SNAME(),
+				ERROR_NUMBER(),
+				ERROR_STATE(),
+				ERROR_SEVERITY(),
+				ERROR_LINE(),
+				ERROR_PROCEDURE(),
+				ERROR_MESSAGE(),
+				GETDATE()
+			);
 
-						IF @@Trancount>0 
-							ROLLBACK TRANSACTION TSaveMov;
-						INSERT INTO dbo.Errores	VALUES (
-							SUSER_SNAME(),
-							ERROR_NUMBER(),
-							ERROR_STATE(),
-							ERROR_SEVERITY(),
-							ERROR_LINE(),
-							ERROR_PROCEDURE(),
-							ERROR_MESSAGE(),
-							GETDATE()
-						);
-
-						Set @OutResultCode=50005;
+			Set @OutResultCode=50005;
 		END CATCH;
 
 		SET NOCOUNT OFF;

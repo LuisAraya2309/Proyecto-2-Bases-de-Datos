@@ -13,8 +13,7 @@ delete from SemanaPlanilla;
 delete from MesPlanilla;
 delete from Feriados;
 DROP PROCEDURE sp_SimulacionCarga;
-DROP PROCEDURE sp_CargarXML
-DROP PROCEDURE sp_CargarPuestos;
+/*DROP PROCEDURE sp_CargarPuestos;
 DROP PROCEDURE sp_CargarDepartamentos;
 DROP PROCEDURE sp_CargarTipoDocIdentidad;
 DROP PROCEDURE sp_CargarTipoJornada;
@@ -26,7 +25,7 @@ DROP PROCEDURE sp_CargarEmpleados;
 DROP PROCEDURE sp_CargarMesesSemanas;
 DROP PROCEDURE sp_CargarTipoJornadaProximaSemana;
 DROP PROCEDURE sp_CargarMarcasAsistencia;
-DROP PROCEDURE sp_CargarEliminarEmpleados;
+DROP PROCEDURE sp_CargarEliminarEmpleados;*/
 DBCC CHECKIDENT ('Empleado', RESEED, 0)
 DBCC CHECKIDENT ('MarcaAsistencia', RESEED, 0)
 DBCC CHECKIDENT ('Jornada', RESEED, 0)

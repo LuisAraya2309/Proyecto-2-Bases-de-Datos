@@ -19,24 +19,27 @@ BEGIN
 
 		SET NOCOUNT ON;
 		BEGIN TRY
-				BEGIN TRANSACTION TSaveMov
-					INSERT INTO TipoMovimientoPlanilla
+			SELECT
+				@OutResultCode=0 ;
 
-							SELECT
-								tipoMovimiento.value('@Id','INT') AS id,
-								tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre
+			BEGIN TRANSACTION TSaveMov
+				INSERT INTO TipoMovimientoPlanilla
+
+						SELECT
+							tipoMovimiento.value('@Id','INT') AS id,
+							tipoMovimiento.value('@Nombre','VARCHAR(40)') AS nombre
                 
-							FROM
-							(
-								SELECT CAST(c AS XML) FROM
-								OPENROWSET(
-									BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
-									SINGLE_BLOB
-								) AS T(c)
-								) AS S(C)
-								CROSS APPLY c.nodes('Datos/Catalogos/TiposDeMovimiento/TipoMovimiento') AS A(tipoMovimiento)
+						FROM
+						(
+							SELECT CAST(c AS XML) FROM
+							OPENROWSET(
+								BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+								SINGLE_BLOB
+							) AS T(c)
+							) AS S(C)
+							CROSS APPLY c.nodes('Datos/Catalogos/TiposDeMovimiento/TipoMovimiento') AS A(tipoMovimiento)
 
-				COMMIT TRANSACTION TSaveMov;
+			COMMIT TRANSACTION TSaveMov;
 		END TRY
 		BEGIN CATCH
 

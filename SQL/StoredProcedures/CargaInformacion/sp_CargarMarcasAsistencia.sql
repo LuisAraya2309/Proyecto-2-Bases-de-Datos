@@ -19,27 +19,30 @@ BEGIN
 
 		SET NOCOUNT ON;
 		BEGIN TRY
-				BEGIN TRANSACTION TSaveMov
-					INSERT INTO dbo.MarcaAsistencia
-						SELECT
+			SELECT
+			@OutResultCode=0 ;
 
-							marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
-							marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
-							(SELECT TOP 1 J.id 
-							FROM dbo.Jornada AS J 
-							WHERE J.IdEmpleado IN (SELECT TOP 1 E.id 
-													FROM dbo.Empleado AS E 
-													WHERE E.ValorDocumentoIdentidad = marcaAsistencia.value('@ValorDocumentoIdentidad','INT')))
-						FROM
-						(
-							SELECT CAST(c AS XML) FROM
-							OPENROWSET(
-								BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
-								SINGLE_BLOB
-							) AS T(c)
-							) AS S(C)
-							CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
-				COMMIT TRANSACTION TSaveMov;
+			BEGIN TRANSACTION TSaveMov
+				INSERT INTO dbo.MarcaAsistencia
+					SELECT
+
+						marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
+						marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
+						(SELECT TOP 1 J.id 
+						FROM dbo.Jornada AS J 
+						WHERE J.IdEmpleado IN (SELECT TOP 1 E.id 
+												FROM dbo.Empleado AS E 
+												WHERE E.ValorDocumentoIdentidad = marcaAsistencia.value('@ValorDocumentoIdentidad','INT')))
+					FROM
+					(
+						SELECT CAST(c AS XML) FROM
+						OPENROWSET(
+							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+							SINGLE_BLOB
+						) AS T(c)
+						) AS S(C)
+						CROSS APPLY c.nodes('Datos/Operacion/MarcaDeAsistencia') AS A (marcaAsistencia)
+			COMMIT TRANSACTION TSaveMov;
 		END TRY
 		BEGIN CATCH
 

@@ -19,25 +19,28 @@ BEGIN
 
 		SET NOCOUNT ON;
 		BEGIN TRY
-				BEGIN TRANSACTION TSaveMov
-					INSERT INTO Departamento
+			SELECT
+				@OutResultCode=0 ;
 
-					SELECT
-						departamento.value('@Id','INT') AS id,
-						departamento.value('@Nombre','VARCHAR(40)') AS nombre, 
-						1 AS activo
+			BEGIN TRANSACTION TSaveMov
+				INSERT INTO Departamento
+
+				SELECT
+					departamento.value('@Id','INT') AS id,
+					departamento.value('@Nombre','VARCHAR(40)') AS nombre, 
+					1 AS activo
 			
-					FROM
-					(
-						SELECT CAST(c AS XML) FROM
-						OPENROWSET(
-							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
-							SINGLE_BLOB
-						) AS T(c)
-						) AS S(C)
-						CROSS APPLY c.nodes('Datos/Catalogos/Departamentos/Departamento') AS A(departamento)
+				FROM
+				(
+					SELECT CAST(c AS XML) FROM
+					OPENROWSET(
+						BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+						SINGLE_BLOB
+					) AS T(c)
+					) AS S(C)
+					CROSS APPLY c.nodes('Datos/Catalogos/Departamentos/Departamento') AS A(departamento)
 
-				COMMIT TRANSACTION TSaveMov;
+			COMMIT TRANSACTION TSaveMov;
 		END TRY
 		BEGIN CATCH
 

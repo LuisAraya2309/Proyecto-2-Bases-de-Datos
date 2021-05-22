@@ -19,6 +19,8 @@ BEGIN
 
 		SET NOCOUNT ON;
 		BEGIN TRY
+			SELECT
+				@OutResultCode=0 ;
 			BEGIN TRANSACTION TSaveMov
 				INSERT INTO TipoDeduccion
 					SELECT

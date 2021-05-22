@@ -20,6 +20,9 @@ BEGIN
 		SET NOCOUNT ON;
 		BEGIN TRY
 
+			SELECT
+			@OutResultCode=0 ;
+
 			DECLARE @countFechas INT; DECLARE @countSemanas INT;
 			CREATE TABLE #FechasTemporales(fecha DATE);
 			CREATE TABLE #FechasSemana(fecha DATE);
@@ -33,7 +36,7 @@ BEGIN
 					(
 						SELECT  CAST(c AS XML) FROM
 						OPENROWSET(
-							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\Datos_Tarea2.xml',
+							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 							SINGLE_BLOB
 						) AS T(c)
 						) AS S(C)

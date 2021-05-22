@@ -12,9 +12,9 @@ AS
 BEGIN
 	DECLARE @OutResultCode INT = 0;
     EXEC sp_CargarPuestos @OutResultCode;
-    --EXEC sp_CargarDepartamentos @OutResultCode;
+    EXEC sp_CargarDepartamentos @OutResultCode;
     EXEC sp_CargarTipoDocIdentidad @OutResultCode;
-    /*EXEC sp_CargarTipoJornada @OutResultCode;
+    EXEC sp_CargarTipoJornada @OutResultCode;
     EXEC sp_CargarTipoMovimientoPlanilla @OutResultCode;
     EXEC sp_CargarFeriados @OutResultCode;
     EXEC sp_CargarTipoDeduccion @OutResultCode;
@@ -23,7 +23,7 @@ BEGIN
     EXEC sp_CargarMesesSemanas @OutResultCode;
     EXEC sp_CargarTipoJornadaProximaSemana @OutResultCode;
     EXEC sp_CargarMarcasAsistencia @OutResultCode;
-    EXEC sp_CargarEliminarEmpleados @OutResultCode;*/
+    EXEC sp_CargarEliminarEmpleados @OutResultCode;
 
 
 END
