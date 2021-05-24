@@ -27,51 +27,50 @@ BEGIN
 			CREATE TABLE #FechasJueves(Fecha DATE);
 
 			INSERT INTO #FechasJueves
-					SELECT 
-						operacion.value('@Fecha','DATE') AS Fecha,
-						0 AS  cantidadOperaciones
+				SELECT 
+					operacion.value('@Fecha','DATE') AS Fecha
 						
-					FROM 
-					(
-						SELECT CAST(c AS XML) FROM
-						OPENROWSET(
-							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
-							SINGLE_BLOB
-						) AS T(c)
-						) AS S(C)
-						CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
+				FROM 
+				(
+					SELECT CAST(c AS XML) FROM
+					OPENROWSET(
+						BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+						SINGLE_BLOB
+					) AS T(c)
+					) AS S(C)
+					CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
 
-					WHERE 
-						(SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4;
+				WHERE 
+					(SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4;
 
 
-			DECLARE @cantidadJueves INT; 
+			DECLARE @cantidadJueves INT , @OperacionesXSemana INT, @indexTablaSemana INT; 
 			SELECT @cantidadJueves = COUNT(*) FROM #FechasJueves;
 			CREATE TABLE #operacionesPorJueves (Fecha DATE,operaciones INT);
 
 			WHILE @cantidadJueves>0
 				BEGIN
-
 					DECLARE @fechaActual DATE;
 					SELECT @fechaActual = (SELECT TOP(1) Fecha FROM #FechasJueves);
 					
 					INSERT INTO #operacionesPorJueves
 						VALUES(
-						@fechaActual,
+							@fechaActual,
 							(SELECT COUNT(*) 
 								FROM 
 								(
 									SELECT CAST(c AS XML) FROM
 									OPENROWSET(
-										BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+										BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 										SINGLE_BLOB
 									) AS T(c)
 									) AS S(C)
 									CROSS APPLY c.nodes('Datos/Operacion/TipoJornadaProximaSemana') AS A (operacion)
 
 								WHERE 
-									(SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = @fechaActual)
+									(operacion.value('@Fecha','DATE') = @fechaActual)
 									)
+							)
 
 					DELETE TOP (1) FROM #FechasJueves
 					SELECT @cantidadJueves = COUNT(*) FROM #FechasJueves;
@@ -80,26 +79,51 @@ BEGIN
 
 			DROP TABLE #FechasJueves; 
 
+			CREATE TABLE #tipoJornadaProximaS (idJornada INT,ValorDocIdentidad INT);
 
+			INSERT INTO  #tipoJornadaProximaS
+				SELECT 
+					tipoJornadaProximaSemana.value('@IdJornada','INT') AS idJornada,
+					tipoJornadaProximaSemana.value('@ValorDocumentoIdentidad','INT')
 
+				FROM 
+						(
+							SELECT CAST(c AS XML) FROM
+							OPENROWSET(
+								BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+								SINGLE_BLOB
+							) AS T(c)
+							) AS S(C)
+							CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
+			Select * From #tipoJornadaProximaS;
+			Select * From #operacionesPorJueves;
+			SELECT @indexTablaSemana = COUNT(*) FROM #operacionesPorJueves;
+			WHILE @indexTablaSemana>1
+				BEGIN
+					PRINT 'Entre al primer while';
+					DECLARE @CantidadOperaciones INT = 0;
+					WHILE @CantidadOperaciones<= (SELECT TOP(1) operaciones FROM #operacionesPorJueves)
+						BEGIN
+							PRINT 'Entre al segundo while';
+							INSERT INTO dbo.Jornada
+								VALUES(
+								(SELECT TOP (1) idJornada FROM #tipoJornadaProximaS),
+								(SELECT E.Id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = (SELECT TOP (1) ValorDocIdentidad FROM #tipoJornadaProximaS)),
+								(SELECT Id FROM dbo.SemanaPlanilla WHERE FechaInicio = (SELECT DATEADD(DAY, 1, (SELECT TOP(1) Fecha FROM #operacionesPorJueves))))
+							)
+							PRINT 'Termine de insertar';
+							Print 'Cantidad de operaciones' + @CantidadOperaciones;
+							DELETE TOP (1) FROM #tipoJornadaProximaS
+							SELECT @CantidadOperaciones = @CantidadOperaciones+1;
+						END
+					DELETE TOP (1) FROM #operacionesPorJueves;
+					SELECT @indexTablaSemana = COUNT(*) FROM #operacionesPorJueves;
+				END
 
-				INSERT INTO dbo.Jornada
-					SELECT
-
-						tipoJornadaProximaSemana.value('@IdJornada','INT') AS idJornada,
-						(SELECT E.Id FROM dbo.Empleado AS E WHERE E.ValorDocumentoIdentidad = tipoJornadaProximaSemana.value('@ValorDocumentoIdentidad','INT')),
-						(SELECT Id FROM dbo.SemanaPlanilla WHERE Id = (SELECT IDENT_CURRENT('SemanaPlanilla')))
-            
-					FROM 
-					(
-						SELECT CAST(c AS XML) FROM
-						OPENROWSET(
-							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
-							SINGLE_BLOB
-						) AS T(c)
-						) AS S(C)
-						CROSS APPLY c.nodes('Datos/Operacion/TipoDeJornadaProximaSemana') AS A (tipoJornadaProximaSemana)
+			DROP TABLE #operacionesPorJueves; 
+			DROP TABLE #tipoJornadaProximaS; 
 			COMMIT TRANSACTION TSaveMov;
+
 		END TRY
 		BEGIN CATCH
 

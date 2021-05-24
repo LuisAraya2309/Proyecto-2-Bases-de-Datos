@@ -23,11 +23,11 @@ BEGIN
 			@OutResultCode=0 ;
 
 			BEGIN TRANSACTION TSaveMov
-				INSERT INTO dbo.MarcaAsistencia
+				INSERT INTO dbo.MarcasAsistencia
 					SELECT
 
-						marcaAsistencia.value('@FechaEntrada','VARCHAR(40)') AS fechaEntrada,
-						marcaAsistencia.value('@FechaSalida','VARCHAR(40)') AS fechaSalida,
+						marcaAsistencia.value('@FechaEntrada','SMALLDATETIME') AS fechaEntrada,
+						marcaAsistencia.value('@FechaSalida','SMALLDATETIME') AS fechaSalida,
 						(SELECT TOP 1 J.id 
 						FROM dbo.Jornada AS J 
 						WHERE J.IdEmpleado IN (SELECT TOP 1 E.id 
@@ -37,7 +37,7 @@ BEGIN
 					(
 						SELECT CAST(c AS XML) FROM
 						OPENROWSET(
-							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 							SINGLE_BLOB
 						) AS T(c)
 						) AS S(C)
