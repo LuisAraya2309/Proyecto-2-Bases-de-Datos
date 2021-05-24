@@ -34,7 +34,7 @@ BEGIN
 				(
 					SELECT CAST(c AS XML) FROM
 					OPENROWSET(
-						BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+						BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 						SINGLE_BLOB
 					) AS T(c)
 					) AS S(C)
@@ -52,29 +52,38 @@ BEGIN
 				BEGIN
 					DECLARE @fechaActual DATE;
 					SELECT @fechaActual = (SELECT TOP(1) Fecha FROM #FechasJueves);
+					CREATE TABLE #cantidadPorJueves (id INT);
+
+					INSERT INTO #cantidadPorJueves
+
+							SELECT
+								operacion.value('@TipoJornadaProximaSemana/@idJornada','INT')
+
+							FROM 
+							(
+								SELECT CAST(c AS XML) FROM
+								OPENROWSET(
+									BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+									SINGLE_BLOB
+								) AS T(c)
+								) AS S(C)
+								CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
+
+							WHERE 
+								(operacion.value('@Fecha','DATE') = @fechaActual)
+
+					
+					SELECT @OperacionesXSemana = COUNT(*) FROM #cantidadPorJueves;				
 					
 					INSERT INTO #operacionesPorJueves
 						VALUES(
 							@fechaActual,
-							(SELECT COUNT(*) 
-								FROM 
-								(
-									SELECT CAST(c AS XML) FROM
-									OPENROWSET(
-										BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
-										SINGLE_BLOB
-									) AS T(c)
-									) AS S(C)
-									CROSS APPLY c.nodes('Datos/Operacion/TipoJornadaProximaSemana') AS A (operacion)
-
-								WHERE 
-									(operacion.value('@Fecha','DATE') = @fechaActual)
-									)
+							@OperacionesXSemana
 							)
 
 					DELETE TOP (1) FROM #FechasJueves
 					SELECT @cantidadJueves = COUNT(*) FROM #FechasJueves;
-
+					DROP TABLE #cantidadPorJueves;
 				END
 
 			DROP TABLE #FechasJueves; 
@@ -90,7 +99,7 @@ BEGIN
 						(
 							SELECT CAST(c AS XML) FROM
 							OPENROWSET(
-								BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+								BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 								SINGLE_BLOB
 							) AS T(c)
 							) AS S(C)
