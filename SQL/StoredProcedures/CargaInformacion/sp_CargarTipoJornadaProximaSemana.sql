@@ -23,6 +23,66 @@ BEGIN
 				@OutResultCode=0 ;
 
 			BEGIN TRANSACTION TSaveMov
+			SET LANGUAGE SPANISH;
+			CREATE TABLE #FechasJueves(Fecha DATE);
+
+			INSERT INTO #FechasJueves
+					SELECT 
+						operacion.value('@Fecha','DATE') AS Fecha,
+						0 AS  cantidadOperaciones
+						
+					FROM 
+					(
+						SELECT CAST(c AS XML) FROM
+						OPENROWSET(
+							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+							SINGLE_BLOB
+						) AS T(c)
+						) AS S(C)
+						CROSS APPLY c.nodes('Datos/Operacion') AS A (operacion)
+
+					WHERE 
+						(SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = 4;
+
+
+			DECLARE @cantidadJueves INT; 
+			SELECT @cantidadJueves = COUNT(*) FROM #FechasJueves;
+			CREATE TABLE #operacionesPorJueves (Fecha DATE,operaciones INT);
+
+			WHILE @cantidadJueves>0
+				BEGIN
+
+					DECLARE @fechaActual DATE;
+					SELECT @fechaActual = (SELECT TOP(1) Fecha FROM #FechasJueves);
+					
+					INSERT INTO #operacionesPorJueves
+						VALUES(
+						@fechaActual,
+							(SELECT COUNT(*) 
+								FROM 
+								(
+									SELECT CAST(c AS XML) FROM
+									OPENROWSET(
+										BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+										SINGLE_BLOB
+									) AS T(c)
+									) AS S(C)
+									CROSS APPLY c.nodes('Datos/Operacion/TipoJornadaProximaSemana') AS A (operacion)
+
+								WHERE 
+									(SELECT DATEPART(WEEKDAY,operacion.value('@Fecha','DATE'))) = @fechaActual)
+									)
+
+					DELETE TOP (1) FROM #FechasJueves
+					SELECT @cantidadJueves = COUNT(*) FROM #FechasJueves;
+
+				END
+
+			DROP TABLE #FechasJueves; 
+
+
+
+
 				INSERT INTO dbo.Jornada
 					SELECT
 
@@ -34,7 +94,7 @@ BEGIN
 					(
 						SELECT CAST(c AS XML) FROM
 						OPENROWSET(
-							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 							SINGLE_BLOB
 						) AS T(c)
 						) AS S(C)
