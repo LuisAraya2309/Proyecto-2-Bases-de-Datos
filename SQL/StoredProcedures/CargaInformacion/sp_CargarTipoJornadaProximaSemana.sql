@@ -35,7 +35,7 @@ BEGIN
 						(
 						SELECT CAST(c AS XML) FROM
 						OPENROWSET(
-							BULK 'C:\Users\Sebastian\Desktop\TEC\IIISemestre\Bases de Datos\Proyecto-2-Bases\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
+							BULK 'E:\TEC\I SEMESTRE 2021\Bases de Datos I\Proyecto 2\Proyecto-2-Bases-de-Datos\SQL\StoredProcedures\CargaInformacion\Datos_Tarea2.xml',
 							SINGLE_BLOB
 						) AS T(c)
 						) AS S(C)
@@ -59,7 +59,7 @@ BEGIN
 					GETDATE()
 				);
 
-				Set @OutResultCode=50005;
+				SET @OutResultCode=50005;
 				
 		END CATCH;
 
